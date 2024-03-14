@@ -26,4 +26,4 @@ jobs:
           git checkout main
           git pull origin main
           commit=$(git rev-parse --short HEAD)
-          git push -f origin master:${{ inputs.s-branch }}
+          git push -f origin main:${{ inputs.s-branch }}
