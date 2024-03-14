@@ -1,0 +1,29 @@
+name: m-stable
+
+on:
+  workflow_dispatch:
+    inputs:
+      s-branch:
+        type: choice
+        description: Which stable branch do you want to merge to?
+        options:
+          - a-stable
+          - i-stable
+
+run-name: merge-${{ inputs.s-branch }}
+
+jobs:
+  merge-stable-branch:
+    if: |
+      github.ref == format('refs/heads/{0}', 'main') &&
+      github.repositoryUrl == 'git://github.com/danjwilks/githubactions.git'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: merge
+        run: |
+          git checkout main
+          git pull origin main
+          commit=$(git rev-parse --short HEAD)
+          git push -f origin master:${{ inputs.s-branch }}
